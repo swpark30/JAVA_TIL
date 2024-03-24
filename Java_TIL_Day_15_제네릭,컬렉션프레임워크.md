@@ -55,6 +55,13 @@
   public class 클래명<T> {  …. }
   public interface 인터페이스명<T> {  }
   
+  ex) // 실제 설계 적용 
+  public class Box<T> {
+      private T t;
+      public T get() {return t;}
+      public void set(T t) {this.t = t;}
+  } 
+  
   Gen<String> gen = new Gen<String>(); // 객체 호출 방법
   Gen<Integer> gen2 = new Gen<Integer>();
   ```
@@ -77,9 +84,9 @@
 
 
 
-### 멀티 타입 파라미터
+### 멀티 타입 파라미터(class<K,V,...>, interface<K,V,...>)
 
-- 제네릭 타입은 두 개 이상의 타입 파라미터 사용 가능
+- 제네릭 타입은 두 개 이상의 멀티 타입 파라미터 사용 가능
 
 - 각 타입 파라미터는 콤마로 구분
 
@@ -87,7 +94,7 @@
   class 클래스명<K, V, …> { … } 
   interface 인터페이스명<K, V, …> { …} 
   
-  Product<String, String> product = new Product<>(); // <String, String>이라고 적어야하지만 														간단하게 사용한다
+  Product<String, String> product = new Product<>(); // <String, String>이라고 적어야하지만 자바 7부터는														간단하게 사용한다
   ```
 
 
