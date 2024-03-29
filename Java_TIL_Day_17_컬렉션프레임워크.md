@@ -232,6 +232,7 @@
   - 키와 값의 쌍으로 이루어진 Entry 객체를 저장하는 구조
   - 키와 값은 모두 객체
   - 키는 중복될 수 없지만 값은 중복 저장 가능
+  - 기존에 저장된 키와 동일한 키로 값을 저장하면 기존의 값은 없어지고 새로운 값으로 대치된다.
 
   
 
@@ -239,7 +240,10 @@
 
   - **HashMap**
 
+    - Map 인터페이스를 구현한 대표적인 Map 컬렉션이다.
+    - 키로 사용할 객체는 hashCode()와 equals() 메소드를 재정의해서 동등 객체가 될 조건을 정해야 한다.
     - 키 타입은 String 많이 사용
+    - 키와 값의 타입은 기본 타입을 사용할 수 없고 클래스 및 인터페이스 타입만 가능하다.
 
     ``` java
     Map<K, V> map = new HashMap<K, V>(); // K : 키타입 V : 값타입
@@ -252,8 +256,9 @@
 
   - **HashTable**
 
-    - 키 객체 만드는 법은 HashMap과 동일
-    - Hashtable은 스레드 동기화가 된 상태
+    - 키 객체 만드는 법과 내부 구조는 HashMap과 동일
+    - HashMap과의 차이점
+      - HashTable은 동기화된 메소드로 구성되어 있기 때문에 멀티 스레드가 동시에 이 메소드들을 실행할 수 없다.
       - 여러개의 스레드가 동시에 Hashtable에 접근해서 객체를 추가,
         삭제하더라도 스레드에 안전
     - Hashtable은 멀티 스레드 환경에서 주로 사용
@@ -262,13 +267,67 @@
 
     
 
-  - LinkedHashMap
+  - **Properties** 
 
+    - Hashtable의 하위 클래스이기 때문에 Hashtable의 모든 특징을 그대로 가지고 있다.
+
+    - 차이점
+
+      - Hashtable은 키와 값을 다양한 타입으로 지정이 가능한데 Properties는 키와 값을 String 타입으로 제한한 컬렉션이다.
+
+    - 어플의 옵션 정보, 데이터베이스 연결 정보, 국제화 정보가 저장된 프로퍼티 파일을 읽을 때 주로 사용한다.
+
+    - 프로퍼티 파일
+
+      - 키와 값이 = 기호로 연결되어 있는 ISO 8859-1 문제셋으로 저장된다.
+
+      - 이 문제셋으로 직접 표현할 수 없는 한글은 유니코드로 변환되어 저장된다.
+
+        ```properties
+        driver=oracle.jdbc.OracleDirver
+        url=jdbc:oracle:thin:@localhost:1521:orcl
+        username=scott
+        password=tiger
+        ```
+
+      - 파일 읽기
+
+        - Properties 객체를 생성하고, load() 메소드를 호출하면 된다.
+
+          ```java
+          Properties properties = new Properties();
+          // 데이터를 읽기 위해 FileReader 객체를 매개값으로 받는다.
+          properties.load(new FileReader("C:/~/database.properties")) 
+          ```
+
+      - 프로퍼티 파일은 일반적으로 클래스 파일과 함께 저장된다.
+
+      - 클래스 파일과 동일한 위치에 있는 프로퍼티 파일을 읽고 객체를 생성하는 코드
+
+        ```java
+        String path = 클래스.class.getResource("database.properties").getPath();
+        path = URLDecoder.decode(path, "utf-8"); // 경로에 한글이 있을 경우 한글을 복원
+        Properties properties = new Properties();
+        properties.load(new FileReader(path));
+        ```
+
+      - Properties 객체에서 해당 키의 값을 읽으려면 getProperty() 메소드를 사용한다.
+
+  - LinkedHashMap
   - TreeMap
 
-  - Properties
 
-    
+
+### 검색 기능을 강화시킨 컬렉션
+
+- 검색 기능을 강화시킨 TreeSet과 TreeMap이 있다.
+- 이 컬렉션들은 이진 트리를 이용해서 계층적 구조(Tree 구조)를 가지면서 객체를 저장한다.
+- 이진 트리 구조
+  - 여러 개의 노드가 트리 형태로 연결된 구조
+  - 루트 노드라고 불리는 하나의 노드에서부터 시작해서 각 노드에 최대 2개의 노드를 연결할 수 있는 구조
+  - 부모 노드의 값보다 작은 노드는 왼쪽에, 큰 노드는 오른쪽에 위치시킨다.
+
+
 
 ### Collections 클래스 활용
 
