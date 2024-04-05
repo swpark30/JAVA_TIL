@@ -348,11 +348,27 @@
 
 - **TreeMap**
 
-  - 
-
-
-
-
+  - 이진 트리를 기반으로 한 Map 컬렉션
+  
+  - TreeSet과의 차이점
+  
+    - 키와 값이 저장된 Map.Entry를 저장한다는 점이다.
+  
+  - 객체를 저장하면 자동으로 정렬된다.
+  
+  - 부모 키값과 비교해서 키 값이 낮은 것은 왼쪽 자식 노드에, 키 값이 높은 것은 오른쪽 자식 노드에 Map.Entry 객체를 저장한다.
+  
+    ```java
+    TreeMap<K, V> treeMap = new TreeMap<K, V>();
+    ```
+  
+  - 정렬 관련 메소드
+  
+    - NavigableSet<K>
+  
+    - NavigableMap<K,V>
+  
+      
 
 ### Collections 클래스 활용
 
