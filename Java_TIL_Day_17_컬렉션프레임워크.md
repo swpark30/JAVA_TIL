@@ -349,26 +349,44 @@
 - **TreeMap**
 
   - 이진 트리를 기반으로 한 Map 컬렉션
-  
+
   - TreeSet과의 차이점
-  
+
     - 키와 값이 저장된 Map.Entry를 저장한다는 점이다.
-  
+
   - 객체를 저장하면 자동으로 정렬된다.
-  
+
   - 부모 키값과 비교해서 키 값이 낮은 것은 왼쪽 자식 노드에, 키 값이 높은 것은 오른쪽 자식 노드에 Map.Entry 객체를 저장한다.
-  
+
     ```java
     TreeMap<K, V> treeMap = new TreeMap<K, V>();
     ```
-  
+
   - 정렬 관련 메소드
-  
+
     - NavigableSet<K>
-  
     - NavigableMap<K,V>
-  
-      
+
+- Comparable과 Comparator
+
+  - TreeSet의 객체와 TreeMap의 키는 저장과 동시에 자동 오름차순으로 정렬된다.
+
+  - 숫자 타입은 값으로, 문자열은 유니코드로 정렬한다.
+
+  - Integer, Double, String은 모두 Comparable 인터페이스를 구현하고 있다.
+
+  - TreeSet의 객체와 TreeMap의 키가 Comparable을 구현하고 있지 않을 경우에는 저장하는 순간 ClassCastException이 발생한다.
+
+  - Comparable 비구현 객체를 정렬하는 방법은 생성장의 매개값으로 정렬자(Comparator)를 제공하면 된다.
+
+    ```java
+    TreeSet<E> treeSet = new TreeSet<E>(new AscendingComparator()); // 오름차순 정렬자
+    
+    TreeMap<K, V> treeSet = new TreeMap<K, V>(new DescendingComparator()); // 내림차순 정렬자
+    ```
+
+    
+
 
 ### Collections 클래스 활용
 
