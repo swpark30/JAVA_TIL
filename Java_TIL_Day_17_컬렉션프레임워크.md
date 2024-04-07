@@ -385,7 +385,14 @@
     TreeMap<K, V> treeSet = new TreeMap<K, V>(new DescendingComparator()); // 내림차순 정렬자
     ```
 
-    
+
+
+
+### LIFO와 FIFO 컬렉션
+
+
+
+
 
 
 ### Collections 클래스 활용
