@@ -387,15 +387,40 @@
 
 
 
-
 ### LIFO와 FIFO 컬렉션
 
+- LIFO(후입선출) : 나중에 넣은 객체가 먼저 빠져나가는 자료구조 
+
+  - 스택(Stack) 클래스 제공
+
+  - 스택을 응용한 대표적인 예가 JVM 스택 메모리이다.
+
+    ```java
+    Stack<E> stack = new Stack<E>();
+    ```
+
+- FIFO(선입선출) : 먼저 넣은 객체가 먼저 빠져나가는 구조
+
+  - 큐(Queue) 인터페이스 제공
+
+  - 큐를 응용한 대표적인 예가 스레드풀(ExecutorService)의 작업 큐이다.
+
+  - 큐 인터페이스를 구현한 대표적인 클래스는 LinkedList이다.
+
+    ```java
+    // LinkedList 객체를 Queue 인터페이스 타입으로 변환한 것
+    Queue<E> queue = new LinkedList<E>(); 
+    ```
+
+
+
+### 동기화된 컬렉션
 
 
 
 
 
-### Collections 클래스 활용
+### Collecions 클래스 활용
 
 - 컬렉션을 다루는 유용한 메소드 지원(static)
   - sort() : 정렬
