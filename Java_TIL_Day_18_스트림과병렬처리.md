@@ -178,4 +178,5 @@
 
     
 
- 
+ ### 기본 집계(sum(), count(), average(), max(), min())
+
