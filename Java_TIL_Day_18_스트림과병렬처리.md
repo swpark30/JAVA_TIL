@@ -198,4 +198,92 @@
 
 - 필요한 요소만 컬렉션으로 담을 수 있고, 요소들을 그룹핑한 후 집계할 수 있다.
 
-  
+- 필터링한 요소 수집
+
+  - 스트림의 collect 메소드는 필터링 또는 매핑된 요소들을 새로운 컬렉션에 수집하고, 이 컬렉션을 리턴한다.
+
+- 사용자 정의 컨테이너에 수집
+
+  - List, Set, Map 같은 컬렉션이 아니라 사용자 정의 컨테이너 객체에 수집하는 방법
+
+  - 스트림에서 읽은 남학생을 MaleStudent에 수집하는 코드
+
+    ``` java
+    Stream<Student> totalStream = totalList.stream();
+    Stream<Student> maleStream = totalStream.filter(s -> s.getSex() == Student.Sex.MALE);
+    
+    Supplier<MaleStudent> supplier = ()->new MaleStudent();
+    BiConsumer<MaleStudent, Student> accumulator = (ms, s)-> ms.accumulate(s);
+    BiConsumer<MaleStudent, MaleStudent> combiner = (ms1, ms2)-> ms1.combine(ms2);
+    
+    MaleStudent maleStudent = maleStream.collect(supplier, accumulator, combiner);
+    
+    // 상기 코드에서 변수를 생략
+    MaleStudent maleStudent = totalList.Stream()
+        .filter(s -> s.getSex() == Student.Sex.MALE)
+        .collect(
+    		() -> new MaleStudent(),
+        	(r, t) -> r.accumulate(t),
+        	(r1,r2) -> r1.combine(r2)
+    );
+    
+    // 람다식을 메소드 참조로 변경할 시
+    MaleStudent maleStudent = totalList.Stream()
+        .filter(s -> s.getSex() == Student.Sex.MALE)
+        .collect(MaleStudent :: new, MaleStudent :: accumulate, MaleStudent :: combine);
+    ```
+
+- 요소를 그룹핑해서 수집
+
+  - collect()를 호출할 때 Collectors의 groupingBy() 또는 groupingByConcurrent()가 리턴하는 Collector를 매개값으로 대입하면 된다.
+
+
+
+### 병렬 처리
+
+- 멀티 코어 CPU 환경에서 하나의 작업을 분할해서 각각의 코어가 병렬적으로 처리하는 것
+- 병렬 처리의 목적
+  - 작업 처리 시간을 줄이기 위해
+- 동시성(Concurrency)과 병렬성(Parallelism)
+  - 멀티 스레드는 동시성 또는 병렬성으로 실행되기 때문에 이 용어들에 대해 정확히 이해하는 것이 좋다.
+  - 동시성
+    - 멀티 작업을 위해 멀티 스레드가 번갈아가며 실행하는 성질
+  - 병렬성
+    - 멀티 작업을 위해 멀티 코어를 이용해서 동시에 실행하는 성질
+    - 데이터 병렬성
+      - 전체 데이터를 쪼개어 서브 데이터들로 만들고 이 서브 데이터들을 병렬 처리해서 작업을 빨리 끝내는 것
+      - 자바 8에서 지원하는 병렬 스트림은 데이터 병렬성을 구현한 것이다.
+      - 예를 들어 쿼드 코어 CPU일 경우 4개의 서브 요소들로 나누고, 4개의 스레드가 각각의 서브 요소들을 병렬 처리한다.
+    - 작업 병렬성
+      - 서로 다른 작업을 병렬 처리하는 것
+      - 대표적인 예는 웹 서버이다.
+      - 웹 서버는 각각의 브라우저에서 요청한 내용을 개별 스레드에서 병렬로 처리한다.
+  - 싱글 코어 CPU를 이용한 멀티 작업은 병렬적으로 실행되는 것처럼 보이지만, 사실은 번갈아가며 실행하는 동시성 작업이다. 
+- 포크조인(ForkJoin) 프레임워크
+  - 병렬 스트림은 요소들을 병렬 처리하기 위해 포크조인 프레임워크를 사용한다.
+  - 병렬 스트림을 이용하면 런타임 시에 포크조인 프레임워크가 동작한다.
+  - 포크 단계
+    - 전체 데이터를 서브 데이터로 분리한다.
+    - 서브 데이터를 멀티 코어에서 병렬로 처리한다.
+  - 조인 단계
+    - 서브 결과를 결합해서 최종 결과를 만들어 낸다.
+  - 병렬 처리 스트림은 실제로 포크 단계에서 차례대로 요소를 4등분하지 않고 내부적으로 서브 요소를 나누는 알고리즘이 있다.
+  - 이 프레임워크는 포크와 조인 기능 이외에 스레드풀인 ForkJoinPool을 제공하고 이걸 사용해서 작업 스레드를 관리한다.
+- 병렬 스트림 생성
+  - 병렬 스트림을 이용할 경우에는 백그라운드에서 포크조인 프레임워크가 사용되기 때문에 쉽게 병렬처리를 할 수 있다.
+
+- 병렬 처리 성능
+  - 스트림 병렬 처리가 스트림 순차 처리보다 항상 실행 성능이 좋다고 판단해서는 안 된다.
+  - 병렬 처리에 영향을 미치는 3가지 요인
+    - 요소의 수와 요소당 처리 시간
+      - 컬렉션에 요소의 수가 적고 요소당 처리 시간이 짧으면 순차 처리가 오히려 병렬 처리보다 빠를 수 있다.
+      - 병렬 처리는 스레드풀 생성, 스레드 생성이라는 추가적인 비용이 발생하기 때문이다.
+    - 스트림 소스의 종류
+      - 배열은 인덱스로 요소를 관리하기 때문에 포크 단계에서 요소를 쉽게 분리할 수 있어 병렬 처리 시간이 절약된다.
+      - 반면에 HashSet,TreeSet은 요소 분리가 쉽지 않고, LinkedList 역시 링크를 따라가야 하므로 요소 분리가 쉽지 않다.
+    - 코어의 수
+      - 싱글 코어 CPU일 경우에는 순차 처리가 빠르다. 병렬 스트림을 사용할 경우 스레드의 수만 증가하고 동시성 작업으로 처리되기 때문에 좋지 못한 결과를 준다.
+      - 코어 수가 많으면 많을수록 병렬 작업 처리 속도는 빨라진다.
+
+
+
