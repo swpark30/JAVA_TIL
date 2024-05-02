@@ -88,4 +88,30 @@
     -  입력 스트림의 최상위 클래스 : Reader
     -  출력 스트림의 최상위 클래스 : Writer
 
-    
+- ##### InputStream
+
+  - 바이트 기반 입력 스트림의 최상위 클래스
+
+  - 바이트 기반 입력 스트림이 기본적으로 가져야 할 메소드
+
+    - read() 메소드
+
+      - 입력 스트림으로부터 1바이트를 읽고 4바이트 int 타입으로 리턴한다.
+
+      - 더 이상 입력 스트림으로부터 바이트를 읽을 수 없다면 read() 메소드는 -1 을 리턴한다.
+
+        ```java
+        InputStream is = new FileInputStream("C:/test.jpg");
+        int readByte;
+        while((readByte=is.read()) != -1){
+            ...
+        }
+        ```
+
+    - read(byte[] b) 메소드
+
+      -  입력 스트림으로부터 매개값으로 주어진 바이트 배열의 길이만큼 바이트를 읽고 배열에 저장한다.
+
+    - read(byte[] b, int off, int len) 메소드
+
+    - close() 메소드
