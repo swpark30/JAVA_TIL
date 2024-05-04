@@ -116,4 +116,9 @@
 
     - read(byte[] b, int off, int len) 메소드
     
+      - 입력 스트림으로부터 len개의 바이트만큼 읽고, 매개값으로 주어진 바이트 배열 b[off]부터 len개까지 저장한다.
+    
     - close() 메소드
+    
+      - InputStream을 더 이상 사용하지 않을 경우에는 close() 메소드를 호출해서 InputStream에서 사용했던 시스템 자원을 풀어준다.
+    
