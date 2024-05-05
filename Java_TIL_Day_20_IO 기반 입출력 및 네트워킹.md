@@ -88,7 +88,7 @@
     -  입력 스트림의 최상위 클래스 : Reader
     -  출력 스트림의 최상위 클래스 : Writer
 
-- ##### InputStream
+- #### InputStream
 
   - 바이트 기반 입력 스트림의 최상위 클래스
 
@@ -121,4 +121,118 @@
     - close() 메소드
     
       - InputStream을 더 이상 사용하지 않을 경우에는 close() 메소드를 호출해서 InputStream에서 사용했던 시스템 자원을 풀어준다.
-    
+
+- #### OutputStream
+
+  -  바이트 기반 출력 스트림의 최상위 클래스
+
+  -  write(int b) 메소드
+
+     - 매개 변수로 주어진 int 값에서 끝에 있는 1바이트만 출력 스트림으로 보낸다.
+
+       ```java
+       OutputStream os = new FileOutputStream("C:/test.txt");
+       byte[] data = "ABC".getBytes();
+       for(int i=0; i<data.length; i++) {
+           os.write(data[i]); // "A", "B", "C"를 하나씩 출력
+       }
+       ```
+
+  -  write(byte[] b) 메소드
+
+     -  매개값으로 주어진 바이트 배열의 모든 바이트를 출력 스트림으로 보낸다.
+
+  -  write(byte[] b, int off, int len) 메소드
+
+     -  b[off]부터 len개의 바이트를 출력 스트림으로 보낸다.
+
+  -  flush()와 close() 메소드
+
+     -  출력 스트림은 내부에 작은 버퍼(buffer)가 있어서 데이터가 출력되기 전에 버퍼에 쌓여있다가 순서대로 출력된다.
+     -  flush() 메소드
+        -  버퍼에 잔류하고 있는 데이터를 모두 출력시키고 버퍼를 비우는 역할을 한다.
+        -  프로그램에서 더 이상 출력할 데이터가 없다면 flush() 메소드를 마지막으로 호출하여 버퍼에 잔류하는 모든 데이터가 출력되도록 해야 한다.
+     -  close() 메소드
+        -  OutputStream을 더 이상 사용하지 않을 경우에는 close() 메소드를 호출해서 시스템 자원을 풀어준다.
+
+- #### Reader
+
+  - 문자 기반 입력 스트림의 최상위 클래스
+
+  - 주요 메소드
+
+    - read() 메소드
+
+      - 입력 스트림으로부터 한 개의 문자(2바이트)를 읽고 4바이트 int 타입으로 리턴한다.
+
+        ```java
+        Reader reader = new FileReader("C:/test.txt");
+        int readData;
+        while((readData=reader.read()) != -1) {
+            char charData = (char)readData;
+        }
+        ```
+
+    - read(char[] cbuf) 메소드
+
+      - 입력 스트림으로부터 매개값으로 주어진 문자 배열의 길이만큼 문자를 읽고 배열에 저장한다.
+      - 읽은 문자 수를 리턴한다.
+
+    - read(char[] cbuf, int off, int len) 메소드
+
+      - 입력 스트림으로부터 len개의 문자만큼 읽고 매개값으로 주어진 문자 배열 cbuf[off]부터 len개까지 저장한다.
+
+    - close() 메소드
+
+- #### Writer
+
+  - 문자 기반 출력 스트림의 최상위 클래스
+
+  - 주요 메소드
+
+    - write(int c) 메소드
+
+      - 매개 변수로 주어진 int 값에서 끝에 있는 2바이트만 출력 스트림으로 보낸다.
+
+        ```java
+        Writer writer = new FileWriter("C:/test.txt");
+        char[] data = "홍길동".toCharArray();
+        for(int i=0; i<data.length; i++){
+            writer.write(data[i]); // "홍", "길", "동"을 하니씩 출력
+        }
+        ```
+
+    - write(char[] cbuf) 메소드
+
+      - 매개값으로 주어진 char[] 배열의 모든 문자를 출력 스트림으로 보낸다.
+
+    - write(char[] c, int off, int len) 메소드
+
+      - c[off]부터 len개의 문자를 출력스트림으로 보낸다.
+
+    - write(String str)와 write(String str, int off, int len) 메소드
+
+      - 문자열을 좀 더 쉽게 보내기 위해 위의 2개의 메소드를 제공한다.
+      - write(String str)
+        - 문자열 전체를 출력 스트림으로 보낸다.
+      - write(String str, int off, int len)
+        - 주어진 문자열 off순번부터 len개까지의 문자를 보낸다.
+
+  - 문자 출력 스트림은 내부에 작은 버퍼가 있어서 데이터가 출력되기 전에 버퍼에 쌓여있다가 순서대로 출력된다.
+
+
+
+### 콘솔 입출력
+
+- 콘솔은 시스템을 사용하기 위해 키보드로 입력을 받고 화면으로 출력하는 소프트웨어를 말한다.
+
+- 유닉스나 리눅스 운영체제는 터미널에 해당하고, 윈도우 운영체제는 명령 프롬프트에 해당
+
+- 이클립스에도 Console 뷰가 있는데, 자바는 콘솔로부터 데이터를 입력받을 때 System.in을 사용하고, 콘솔에 데이터를 출력할 때 System.out을 사용한다.
+
+- 에러를 출력할 때에는 System.err를 사용한다.
+
+- #### System.in 필드
+
+  - 
+
