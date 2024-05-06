@@ -234,5 +234,54 @@
 
 - #### System.in 필드
 
+  - 자바는 프로그램이 콘솔로부터 데이터를 입력받을 수 있도록 System 클래스의 in 정적 필드를 제공한다.
+
+  - System.in은 InputStream 타입의 필드이므로 InputStream 변수로 참조 가능
+
+    ```java
+    InputStream is = System.in;
+    int asciiCode = is.read(); // 아스키코드로 불러온다.
+    char inputChar = (char)is.read(); // 아스키코드를 문자로 얻고 싶을 때
+    ```
+
+  - read() 메소드는 1바이트만 읽기 때문에 1바이트의 아스키코드로 표현되는 숫자, 영어, 특수문자는 프로그램에서 잘 읽을 수 있지만, 한글과 같은 2바이트를 필요로 하는 유니코드는 read() 메소드로 읽을 수 없다.
+
+  - 한글을 얻기 위해서는 우선 read(byte[] b)나 read(char[] cbuf, int off, int len) 메소드로 전체 입력된 내용을 바이트 배열로 받고, 이 배열을 이용해서 String 객체를 생성하면 된다.
+
+    ```java
+    byte[] byteData = new byte[15];
+    int readByteNo = System.in.read(byteData);
+    String strData = new String(byteData, 0, readByteNo-2); // -2를 하는 이유는 엔터키에 해당하는 마지막 두 바이트를 제외하기 위해서이다.
+    ```
+
+- #### System.out 필드
+
+  - 콘솔로 데이터를 출력하기 위해서는 System 클래스의 out 정적 필드를 사용한다.
+
+  - out은 PrintStream 타입의 필드이다. (PrintStream은 OutputStream의 하위 클래스이다.)
+
+    ```java
+    OutputStream os = System.out;
+    ```
+
+  - write() 메소드는 아스키 코드를 문자로 콘솔에 출력한다.
+
+    ```java
+    byte b = 97;
+    os.write(b); // 'a'가 출력된다.
+    os.flush();
+    ```
+
+  - 출력도 입력과 똑같이 2바이트인 한글은 출력할 수 없다, 출력하기 위해서 한글을 바이트 배열로 얻은 다음 write(byte[] b)나 write(byte[] b, int off, int len) 메소드로 콘솔에 출력한다.
+
+    ```java
+    String name = "홍길동";
+    byte[] nameBytes = name.getBytes();
+    os.write(nameBytes);
+    os.flush();
+    ```
+
+- #### Console 클래스
+
   - 
 
