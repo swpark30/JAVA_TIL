@@ -283,5 +283,11 @@
 
 - #### Console 클래스
 
-  - 
+  - 자바 6부터는 콜솔에서 입력받은 문자열을 쉽게 읽을 수 있도록 java.io.Console 클래스를 제공한다.
+  
+    ```java
+    Console console = System.console();
+    ```
+  
+  - 이클립스에서 실행하면 System.console() 메소드는 null을 리턴하기 때문에 반드시 명령 프롬프트에서 실행해야 한다.
 
