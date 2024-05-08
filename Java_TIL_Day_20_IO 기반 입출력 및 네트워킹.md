@@ -284,10 +284,28 @@
 - #### Console 클래스
 
   - 자바 6부터는 콜솔에서 입력받은 문자열을 쉽게 읽을 수 있도록 java.io.Console 클래스를 제공한다.
-  
+
     ```java
     Console console = System.console();
     ```
-  
+
   - 이클립스에서 실행하면 System.console() 메소드는 null을 리턴하기 때문에 반드시 명령 프롬프트에서 실행해야 한다.
 
+- #### Scanner 클래스
+
+  - Console 클래스는 콘솔로부터 문자열은 읽을 수 있지만 기본 타입 값을 바로 읽을 수는 없다.
+
+  - java.io 패키지의 클래스는 아니지만, java.util 패키지의 Scanner 클래스를 이용하면 콘솔로부터 기본 타입의 값을 바로 읽을 수 있다.
+
+    ```java
+    Scanner scanner = new Scanner(System.in);
+    ```
+
+  - Scanner가 콘솔에서만 사용되는 것이 아니고, 생성자 매개값에는 File, InputStream, Path 등과 같이 다양한 입력 소스를 지정할 수도 있다.
+
+
+
+
+### 파일 입출력
+
+-  
