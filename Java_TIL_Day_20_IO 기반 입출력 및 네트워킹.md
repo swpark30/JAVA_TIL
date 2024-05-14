@@ -324,4 +324,7 @@
      File file = new File("C:/Temp/file.txt");
      ```
 
-     
+- #### FileInputStream
+
+   - 파일로부터 바이트 단위로 읽어들일 때 사용하는 바이트 기반 입력 스트림이다.
+   - 
